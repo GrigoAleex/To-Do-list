@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do | Stay Organizaed</title>
+    <link rel="shortcut icon" href="https://img.icons8.com/fluent/48/000000/check-all.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <style>
+        .completed{
+            color: green;
+        }
+    </style>
+    <div class="container" id="root">
+        <div id="headline" class="text-center mt-4">
+            <div class="display-4">TO DO LIST</div>
+            <p class="text-muted">Developed by Grigorescu Alexandru</p>
+        </div>
+        <div class="input-control mb-5">
+            <input type="text" class="form-control" placeholder="What do you need to do?" 
+                aria-label="get the next todo" v-model="nextTodo" @keyUp="addTodo"/>
+        </div>
+        <div id="display">
+            <div v-for="(item, key) in todos" class="my-3">
+                <h4 :class="{ 'completed' : item.completed }">{{ item.name }}</h4>
+                <button class="btn btn-danger" @click="deleteItem(key)">Delete item</button>
+                <button class="btn btn-warning">Edit item</button>
+                <button class="btn btn-success" @click="markAsDone(key)">Mark As done</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#root',
+            data: {
+                todos: [
+                    {
+                        name: "Buy milk",
+                        completed: false,
+                        id: 0
+                    },
+                    {
+                        name: "Drive a car",
+                        completed: false,
+                        id: 1
+                    },
+                    {
+                        name: "Do homework",
+                        completed: false,
+                        id: 2
+                    },
+                    {
+                        name: "Eat pancakes",
+                        completed: false,
+                        id: 3
+                    },
+                ],
+                nextTodo: '',
+                id: 4,
+            },
+            methods:{
+                addTodo: function(e){
+                    if(e.key === "Enter")
+                    {
+                        this.todos.push(
+                            {
+                                name: this.nextTodo, 
+                                completed: false,
+                                id: this.id
+                            });
+                        this.nextTodo = '';
+                        this.id++;
+                    }
+                },
+
+                markAsDone: function(index){
+                    this.todos[index].completed = true;
+                },
+
+                deleteItem: function(index){
+                    Vue.delete(this.todos, index);
+                },
+
+            },
+        });
+    </script>
+</body>
+</html>
